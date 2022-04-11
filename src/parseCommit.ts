@@ -8,7 +8,7 @@ export interface Commit {
 }
 
 /** This is a temporary fix to patch the types from the conventional-commits package. */
-type SummaryWithText = Summary & { children: (Type | Scope | Separator | Text)[] };
+type SummaryWithText = Omit<Summary, 'children'> & { children: (Type | Scope | Separator | Text)[] };
 
 /** Parses a commit message and extracts the different segments into a commit object. */
 export function parseCommit(message: string): Commit {
@@ -18,7 +18,7 @@ export function parseCommit(message: string): Commit {
 
   const { children } = parser(message);
 
-  const summary = children.find((child): child is SummaryWithText => child.type === 'summary');
+  const summary = children.find((child) => child.type === 'summary') as SummaryWithText;
   const type = summary?.children.find((child): child is Type => child.type === 'type');
   const scope = summary?.children.find((child): child is Scope => child.type === 'scope');
   const subject = summary?.children.find((child): child is Text => child.type === 'text');
