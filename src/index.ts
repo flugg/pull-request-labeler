@@ -1,9 +1,9 @@
-import { debug, getInput } from '@actions/core';
+import { debug, getInput, info } from '@actions/core';
 import { context } from '@actions/github';
 import { Client } from './Client';
 
 (async () => {
-  debug('test');
+  info('test');
   const token = getInput('token', { required: true });
 
   if (!context.payload.pull_request) {
