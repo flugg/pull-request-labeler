@@ -1,9 +1,17 @@
-import { getInput, info } from '@actions/core';
+import { getInput } from '@actions/core';
 import { context } from '@actions/github';
 import { Client } from './Client';
 
 (async () => {
   const token = getInput('token', { required: true });
+  const map = getInput('map')
+    ? JSON.parse(getInput('map'))
+    : {
+        feat: 'feature',
+        fix: 'fix',
+        refactor: 'refactor',
+        docs: 'documentation',
+      };
 
   if (!context.payload.pull_request) {
     throw new Error('The action was not called within a pull request.');
@@ -15,6 +23,12 @@ import { Client } from './Client';
   });
 
   const commits = await client.getCommits(context.payload.pull_request.number);
+  const types = new Set(
+    commits
+      .map((commit) => commit.type)
+      .map((type) => map[type])
+      .filter((type) => !!type)
+  );
 
-  info(commits.map((commit) => commit.type).join(','));
+  await client.addLabels(Array.from(types), context.payload.pull_request.number);
 })();

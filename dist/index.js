@@ -1066,7 +1066,7 @@ var Client = /** @class */ (function () {
         });
     };
     /** Adds a label to a pull request. */
-    Client.prototype.addLabel = function (labels, pullRequestNumber) {
+    Client.prototype.addLabels = function (labels, pullRequestNumber) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
@@ -1678,11 +1678,19 @@ var core_1 = __webpack_require__(470);
 var github_1 = __webpack_require__(469);
 var Client_1 = __webpack_require__(234);
 (function () { return __awaiter(void 0, void 0, void 0, function () {
-    var token, client, commits;
+    var token, map, client, commits, types;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 token = (0, core_1.getInput)('token', { required: true });
+                map = (0, core_1.getInput)('map')
+                    ? JSON.parse((0, core_1.getInput)('map'))
+                    : {
+                        feat: 'feature',
+                        fix: 'fix',
+                        refactor: 'refactor',
+                        docs: 'documentation'
+                    };
                 if (!github_1.context.payload.pull_request) {
                     throw new Error('The action was not called within a pull request.');
                 }
@@ -1693,7 +1701,13 @@ var Client_1 = __webpack_require__(234);
                 return [4 /*yield*/, client.getCommits(github_1.context.payload.pull_request.number)];
             case 1:
                 commits = _a.sent();
-                (0, core_1.info)(commits.map(function (commit) { return commit.type; }).join(','));
+                types = new Set(commits
+                    .map(function (commit) { return commit.type; })
+                    .map(function (type) { return map[type]; })
+                    .filter(function (type) { return !!type; }));
+                return [4 /*yield*/, client.addLabels(Array.from(types), github_1.context.payload.pull_request.number)];
+            case 2:
+                _a.sent();
                 return [2 /*return*/];
         }
     });
