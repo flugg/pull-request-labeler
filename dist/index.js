@@ -1068,16 +1068,9 @@ var Client = /** @class */ (function () {
     /** Adds a label to a pull request. */
     Client.prototype.addLabels = function (labels, pullRequestNumber) {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, Promise.all(labels.map(function (label) {
-                            return _this.client.rest.issues.addLabels(__assign(__assign({}, _this.context), { issue_number: pullRequestNumber, name: label }));
-                        }))];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
+                this.client.rest.issues.addLabels(__assign(__assign({}, this.context), { issue_number: pullRequestNumber, name: labels }));
+                return [2 /*return*/];
             });
         });
     };

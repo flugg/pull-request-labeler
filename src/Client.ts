@@ -32,15 +32,11 @@ export class Client {
 
   /** Adds a label to a pull request. */
   async addLabels(labels: string[], pullRequestNumber: number) {
-    await Promise.all(
-      labels.map((label) =>
-        this.client.rest.issues.addLabels({
-          ...this.context,
-          issue_number: pullRequestNumber,
-          name: label,
-        })
-      )
-    );
+    this.client.rest.issues.addLabels({
+      ...this.context,
+      issue_number: pullRequestNumber,
+      name: labels,
+    });
   }
 
   /** Removes the provided labels from a pull request. */
