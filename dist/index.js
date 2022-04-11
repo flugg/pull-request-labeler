@@ -1674,35 +1674,31 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.run = void 0;
 var core_1 = __webpack_require__(470);
 var github_1 = __webpack_require__(469);
 var Client_1 = __webpack_require__(234);
-function run() {
-    return __awaiter(this, void 0, void 0, function () {
-        var token, client, commits;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    (0, core_1.debug)('test');
-                    token = (0, core_1.getInput)('token', { required: true });
-                    if (!github_1.context.payload.pull_request) {
-                        throw new Error('The action was not called within a pull request.');
-                    }
-                    client = new Client_1.Client(token, {
-                        repo: github_1.context.repo.repo,
-                        owner: github_1.context.repo.owner
-                    });
-                    return [4 /*yield*/, client.getCommits(github_1.context.payload.pull_request.number)];
-                case 1:
-                    commits = _a.sent();
-                    (0, core_1.debug)(commits.map(function (commit) { return commit.type; }).join(','));
-                    return [2 /*return*/];
-            }
-        });
+(function () { return __awaiter(void 0, void 0, void 0, function () {
+    var token, client, commits;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                (0, core_1.debug)('test');
+                token = (0, core_1.getInput)('token', { required: true });
+                if (!github_1.context.payload.pull_request) {
+                    throw new Error('The action was not called within a pull request.');
+                }
+                client = new Client_1.Client(token, {
+                    repo: github_1.context.repo.repo,
+                    owner: github_1.context.repo.owner
+                });
+                return [4 /*yield*/, client.getCommits(github_1.context.payload.pull_request.number)];
+            case 1:
+                commits = _a.sent();
+                (0, core_1.debug)(commits.map(function (commit) { return commit.type; }).join(','));
+                return [2 /*return*/];
+        }
     });
-}
-exports.run = run;
+}); })();
 
 
 /***/ }),

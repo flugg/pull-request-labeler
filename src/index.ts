@@ -2,7 +2,7 @@ import { debug, getInput } from '@actions/core';
 import { context } from '@actions/github';
 import { Client } from './Client';
 
-export async function run() {
+(async () => {
   debug('test');
   const token = getInput('token', { required: true });
 
@@ -18,4 +18,4 @@ export async function run() {
   const commits = await client.getCommits(context.payload.pull_request.number);
 
   debug(commits.map((commit) => commit.type).join(','));
-}
+})();
