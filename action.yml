@@ -1,0 +1,16 @@
+name: 'Pull Request Labeler'
+description: 'Automatically label new pull requests based on conventional commit messages.'
+author: Alexander Tømmerås
+branding:
+  color: 'black'
+  icon: 'tag'
+
+inputs:
+  token:
+    description: 'Repository token used for applying labels'
+    required: false
+    default: ${{ github.token }}
+
+runs:
+  using: 'node16'
+  main: 'dist/index.js'

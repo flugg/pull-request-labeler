@@ -1,0 +1,28 @@
+{
+  "name": "conventional-labeler",
+  "author": "Alexander Tømmerås",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "build": "ncc build src/index.ts"
+  },
+  "dependencies": {
+    "@actions/core": "^1.6.0",
+    "@actions/github": "^5.0.1",
+    "@conventional-commits/parser": "^0.4.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "@zeit/ncc": "^0.22.3",
+    "jest": "^27.5.1",
+    "prettier": "^2.6.2",
+    "ts-jest": "^27.1.4",
+    "typescript": "^4.6.3"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 120
+  }
+}
