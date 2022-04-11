@@ -1048,7 +1048,7 @@ var Client = /** @class */ (function () {
         this.client = (0, github_1.getOctokit)(token);
         this.context = context;
     }
-    /** Fetches a list of 250 of the most recent commit messages from a pull request. */
+    /** Fetches a list of the last 250 commit messages from a pull request. */
     Client.prototype.getCommits = function (pullRequestNumber) {
         return __awaiter(this, void 0, void 0, function () {
             var response;
@@ -1061,6 +1061,20 @@ var Client = /** @class */ (function () {
                                 var commit = _a.commit;
                                 return (0, parseCommit_1.parseCommit)(commit.message);
                             })];
+                }
+            });
+        });
+    };
+    /** Fetches a list of existing labels for a pull request. */
+    Client.prototype.getLabels = function (pullRequestNumber) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.client.rest.issues.listLabelsOnIssue(__assign(__assign({}, this.context), { issue_number: pullRequestNumber }))];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.data.map(function (label) { return label.name; })];
                 }
             });
         });
@@ -1671,7 +1685,7 @@ var core_1 = __webpack_require__(470);
 var github_1 = __webpack_require__(469);
 var Client_1 = __webpack_require__(234);
 (function () { return __awaiter(void 0, void 0, void 0, function () {
-    var token, map, client, commits, types;
+    var token, map, client, commits, types, labels;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -1685,7 +1699,7 @@ var Client_1 = __webpack_require__(234);
                         docs: 'documentation'
                     };
                 if (!github_1.context.payload.pull_request) {
-                    throw new Error('The action was not called within a pull request.');
+                    (0, core_1.setFailed)('The action was not called within a pull request.');
                 }
                 client = new Client_1.Client(token, {
                     repo: github_1.context.repo.repo,
@@ -1698,10 +1712,10 @@ var Client_1 = __webpack_require__(234);
                     .map(function (commit) { return commit.type; })
                     .map(function (type) { return map[type]; })
                     .filter(function (type) { return !!type; }));
-                (0, core_1.info)("Adding labels [".concat(Array.from(types).join(', '), "] to pull request #").concat(github_1.context.payload.pull_request.number));
-                return [4 /*yield*/, client.addLabels(Array.from(types), github_1.context.payload.pull_request.number)];
+                return [4 /*yield*/, client.getLabels(github_1.context.payload.pull_request.number)];
             case 2:
-                _a.sent();
+                labels = _a.sent();
+                (0, core_1.info)('labels: ' + labels.join(', '));
                 return [2 /*return*/];
         }
     });

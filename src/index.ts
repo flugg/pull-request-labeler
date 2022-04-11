@@ -1,4 +1,4 @@
-import { getInput, info } from '@actions/core';
+import { getInput, info, setFailed } from '@actions/core';
 import { context } from '@actions/github';
 import { Client } from './Client';
 
@@ -14,7 +14,7 @@ import { Client } from './Client';
       };
 
   if (!context.payload.pull_request) {
-    throw new Error('The action was not called within a pull request.');
+    setFailed('The action was not called within a pull request.');
   }
 
   const client = new Client(token, {
@@ -30,6 +30,9 @@ import { Client } from './Client';
       .filter((type) => !!type)
   );
 
-  info(`Adding labels [${Array.from(types).join(', ')}] to pull request #${context.payload.pull_request.number}`);
-  await client.addLabels(Array.from(types), context.payload.pull_request.number);
+  const labels = await client.getLabels(context.payload.pull_request.number);
+  info('labels: ' + labels.join(', '));
+
+  // info(`Adding labels [${Array.from(types).join(', ')}] to pull request #${context.payload.pull_request.number}`);
+  // await client.addLabels(Array.from(types), context.payload.pull_request.number);
 })();

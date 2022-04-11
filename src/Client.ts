@@ -20,7 +20,7 @@ export class Client {
     this.context = context;
   }
 
-  /** Fetches a list of 250 of the most recent commit messages from a pull request. */
+  /** Fetches a list of the last 250 commit messages from a pull request. */
   async getCommits(pullRequestNumber: number) {
     const response = await this.client.rest.pulls.listCommits({
       ...this.context,
@@ -28,6 +28,16 @@ export class Client {
     });
 
     return response.data.map(({ commit }) => parseCommit(commit.message));
+  }
+
+  /** Fetches a list of existing labels for a pull request. */
+  async getLabels(pullRequestNumber: number) {
+    const response = await this.client.rest.issues.listLabelsOnIssue({
+      ...this.context,
+      issue_number: pullRequestNumber,
+    });
+
+    return response.data.map((label) => label.name);
   }
 
   /** Adds a label to a pull request. */
