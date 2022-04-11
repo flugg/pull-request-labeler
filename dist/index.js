@@ -1069,7 +1069,7 @@ var Client = /** @class */ (function () {
     Client.prototype.addLabels = function (labels, pullRequestNumber) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                this.client.rest.issues.addLabels(__assign(__assign({}, this.context), { issue_number: pullRequestNumber, name: labels }));
+                this.client.rest.issues.addLabels(__assign(__assign({}, this.context), { issue_number: pullRequestNumber, labels: labels }));
                 return [2 /*return*/];
             });
         });

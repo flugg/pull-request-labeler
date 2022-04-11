@@ -35,7 +35,7 @@ export class Client {
     this.client.rest.issues.addLabels({
       ...this.context,
       issue_number: pullRequestNumber,
-      name: labels,
+      labels: labels,
     });
   }
 
