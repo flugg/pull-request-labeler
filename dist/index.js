@@ -1705,6 +1705,7 @@ var Client_1 = __webpack_require__(234);
                     .map(function (commit) { return commit.type; })
                     .map(function (type) { return map[type]; })
                     .filter(function (type) { return !!type; }));
+                (0, core_1.info)("Adding labels [".concat(Array.from(types).join(', '), "] to pull request #").concat(github_1.context.payload.pull_request.number));
                 return [4 /*yield*/, client.addLabels(Array.from(types), github_1.context.payload.pull_request.number)];
             case 2:
                 _a.sent();

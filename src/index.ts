@@ -1,4 +1,4 @@
-import { getInput } from '@actions/core';
+import { getInput, info } from '@actions/core';
 import { context } from '@actions/github';
 import { Client } from './Client';
 
@@ -30,5 +30,6 @@ import { Client } from './Client';
       .filter((type) => !!type)
   );
 
+  info(`Adding labels [${Array.from(types).join(', ')}] to pull request #${context.payload.pull_request.number}`);
   await client.addLabels(Array.from(types), context.payload.pull_request.number);
 })();
