@@ -1,9 +1,8 @@
-import { debug, getInput, info } from '@actions/core';
+import { getInput, info } from '@actions/core';
 import { context } from '@actions/github';
 import { Client } from './Client';
 
 (async () => {
-  info('test');
   const token = getInput('token', { required: true });
 
   if (!context.payload.pull_request) {
@@ -17,5 +16,5 @@ import { Client } from './Client';
 
   const commits = await client.getCommits(context.payload.pull_request.number);
 
-  debug(commits.map((commit) => commit.type).join(','));
+  info(commits.map((commit) => commit.type).join(','));
 })();
