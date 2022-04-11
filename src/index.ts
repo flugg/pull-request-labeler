@@ -3,6 +3,7 @@ import { context } from '@actions/github';
 import { Client } from './Client';
 
 export async function run() {
+  debug('test');
   const token = getInput('token', { required: true });
 
   if (!context.payload.pull_request) {
