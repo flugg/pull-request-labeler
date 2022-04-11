@@ -1682,7 +1682,6 @@ var Client_1 = __webpack_require__(234);
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                (0, core_1.info)('test');
                 token = (0, core_1.getInput)('token', { required: true });
                 if (!github_1.context.payload.pull_request) {
                     throw new Error('The action was not called within a pull request.');
@@ -1694,7 +1693,7 @@ var Client_1 = __webpack_require__(234);
                 return [4 /*yield*/, client.getCommits(github_1.context.payload.pull_request.number)];
             case 1:
                 commits = _a.sent();
-                (0, core_1.debug)(commits.map(function (commit) { return commit.type; }).join(','));
+                (0, core_1.info)(commits.map(function (commit) { return commit.type; }).join(','));
                 return [2 /*return*/];
         }
     });
