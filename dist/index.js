@@ -1684,6 +1684,7 @@ function run() {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    (0, core_1.debug)('test');
                     token = (0, core_1.getInput)('token', { required: true });
                     if (!github_1.context.payload.pull_request) {
                         throw new Error('The action was not called within a pull request.');
